@@ -1,5 +1,7 @@
+import java.util.Properties
 plugins {
     alias(libs.plugins.android.application)
+    alias(libs.plugins.compose.compiler)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.dagger.hilt)
     alias(libs.plugins.ksp)
@@ -42,14 +44,15 @@ android {
     buildFeatures {
         compose = true
     }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1"
-    }
+
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+}
+composeCompiler{
+    enableStrongSkippingMode= true
 }
 
 dependencies {
@@ -70,45 +73,43 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
-    //Compose
+    //compose
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.coil.compose)
 
-    //Room
-
+    // Room
     ksp(libs.androidx.room.compiler)
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
     implementation(libs.androidx.room.paging)
 
-    //SplashScreen
+    //Splash Screen
     implementation(libs.androidx.core.splashscreen)
 
-    //Cloudy for burning effect
+    //Cloudy for blurring effect
     implementation(libs.cloudy)
 
-    //paging
-
+    //Paging
     implementation(libs.androidx.paging.runtime.ktx)
     implementation(libs.androidx.paging.compose)
 
-    //kotlinX Serialization
+    // KotlinX Serialization
     implementation(libs.kotlinx.serialization.json)
 
-    //Retrofit
+    // Retrofit
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
     implementation(libs.converter.scalars)
     implementation(libs.retrofit2.kotlinx.serialization.converter)
-    implementation(libs.xokhttp)
+    implementation(libs.okhttp)
 
     //Dagger hilt
-    implementation(libs.xhilt.android)
-    ksp(libs.xhilt.android.compiler)
-    ksp(libs.androidx.xhilt.compiler)
-    implementation(libs.androidx.xhilt.navigation.compose)
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.android.compiler)
+    ksp(libs.androidx.hilt.compiler)
+    implementation(libs.androidx.hilt.navigation.compose)
 
 
 }
