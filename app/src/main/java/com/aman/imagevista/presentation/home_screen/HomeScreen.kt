@@ -13,15 +13,23 @@ import androidx.compose.ui.text.font.FontWeight
 import com.aman.imagevista.data.remote.dto.UnsplashImageDto
 import com.aman.imagevista.domain.model.UnsplashImage
 import com.aman.imagevista.presentation.component.ImageCard
+import com.aman.imagevista.presentation.component.ImageVistaTopAppBar
 import com.aman.imagevista.presentation.component.ImagesVerticalGrid
 
 @Composable
 fun HomeScreen(
     images:List<UnsplashImage>,
-    onImageClick:(String)->Unit
+    onImageClick:(String)->Unit,
+    onSearchClick:()->Unit,
 ) {
-    ImagesVerticalGrid(
-        images =images,
-        onImageClick = onImageClick
-    )
+    Column {
+        ImageVistaTopAppBar(
+            onSearchClick = onSearchClick
+        )
+        ImagesVerticalGrid(
+            images =images,
+            onImageClick = onImageClick
+        )
+    }
+
 }

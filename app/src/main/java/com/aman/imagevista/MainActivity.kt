@@ -23,7 +23,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             ImageVistaTheme {
                 val viewModel = viewModel<HomeViewModel>()
-                HomeScreen(images =viewModel.images, onImageClick = {})
+                HomeScreen(images =viewModel.images, onImageClick = {}, onSearchClick = {})
             }
         }
     }
