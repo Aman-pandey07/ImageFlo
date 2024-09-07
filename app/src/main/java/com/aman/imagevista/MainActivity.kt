@@ -11,7 +11,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.aman.imagevista.ui.theme.ImageVistaTheme
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.aman.imagevista.presentation.home_screen.HomeScreen
+import com.aman.imagevista.presentation.home_screen.HomeViewModel
+import com.aman.imagevista.presentation.theme.ImageVistaTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,29 +22,10 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             ImageVistaTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
+                val viewModel = viewModel<HomeViewModel>()
+                HomeScreen(images =viewModel.images )
             }
         }
     }
 }
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    ImageVistaTheme {
-        Greeting("Android")
-    }
-}

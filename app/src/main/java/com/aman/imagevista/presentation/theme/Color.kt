@@ -1,4 +1,4 @@
-package com.aman.imagevista.ui.theme
+package com.aman.imagevista.presentation.theme
 import androidx.compose.ui.graphics.Color
 
 val primaryLight = Color(0xFF246488)

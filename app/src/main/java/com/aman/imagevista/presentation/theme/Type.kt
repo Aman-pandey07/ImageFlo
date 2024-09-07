@@ -1,4 +1,4 @@
-package com.aman.imagevista.ui.theme
+package com.aman.imagevista.presentation.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
