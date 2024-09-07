@@ -39,7 +39,8 @@ class MainActivity : ComponentActivity() {
                         scrollBehavior = scrollBehaviour,
                         images =viewModel.images,
                         onImageClick = {},
-                        onSearchClick = {}
+                        onSearchClick = {},
+                        onFABClick = {}
                     )
                 }
 
