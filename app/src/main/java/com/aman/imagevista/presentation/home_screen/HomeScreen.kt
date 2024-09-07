@@ -12,22 +12,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import com.aman.imagevista.data.remote.dto.UnsplashImageDto
 import com.aman.imagevista.domain.model.UnsplashImage
+import com.aman.imagevista.presentation.component.ImageCard
+import com.aman.imagevista.presentation.component.ImagesVerticalGrid
 
 @Composable
 fun HomeScreen(
-    images:List<UnsplashImage>
+    images:List<UnsplashImage>,
+    onImageClick:(String)->Unit
 ) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState())
-    ) {
-       images.forEach {image ->
-           Text(text = image.id)
-           Text(text = image.imageUrlRegular, color = Color.Blue)
-           Text(text = image.photographerName, fontWeight = FontWeight.Bold)
-           Text(text = "${image.width} x ${image.height}")
-           HorizontalDivider()
-       }
-    }
+    ImagesVerticalGrid(
+        images =images,
+        onImageClick = onImageClick
+    )
 }
