@@ -23,6 +23,9 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+        val properties = Properties()
+        properties.load(project.rootProject.file("local.properties").inputStream())
+        buildConfigField("String","UNSPLASH_API_KEY", properties.getProperty("UNSPLASH_API_KEY"))
     }
 
     buildTypes {
@@ -42,6 +45,7 @@ android {
         jvmTarget = "1.8"
     }
     buildFeatures {
+        buildConfig = true
         compose = true
     }
 

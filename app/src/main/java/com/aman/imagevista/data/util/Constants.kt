@@ -1,6 +1,8 @@
 package com.aman.imagevista.data.util
 
+import com.aman.imagevista.BuildConfig
+
 object Constants {
-    const val API_KEY = "mH0mlxpTjr-rsd9jdo_UxJZDfp02rwxsjTA8E48XqZY"
+    const val API_KEY = BuildConfig.UNSPLASH_API_KEY
     const val BASE_URL = "https://api.unsplash.com/"
 }
