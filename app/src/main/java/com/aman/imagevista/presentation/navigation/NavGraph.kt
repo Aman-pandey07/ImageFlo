@@ -13,6 +13,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.aman.imagevista.presentation.favorites_screen.FavoritesScreen
 import com.aman.imagevista.presentation.full_image_screen.FullImageScreen
+import com.aman.imagevista.presentation.full_image_screen.FullImageViewModel
 import com.aman.imagevista.presentation.home_screen.HomeScreen
 import com.aman.imagevista.presentation.home_screen.HomeViewModel
 import com.aman.imagevista.presentation.search_screen.SearchScreen
@@ -47,11 +48,12 @@ fun NavGraphSetup(
         composable<Routes.FavoritesScreen> {
             FavoritesScreen(onBackClick = { navController.navigateUp() })
         }
-        composable<Routes.FullImageScreen> {backStackEntry->
-            val imageId = backStackEntry.toRoute<Routes.FullImageScreen>().imageId
+        composable<Routes.FullImageScreen> {
+            val fullImageViewModel: FullImageViewModel = hiltViewModel()
             FullImageScreen(
-                imageId =imageId ,
-                onBackClick = { navController.navigateUp() }
+                image =fullImageViewModel.image,
+                onBackClick = { navController.navigateUp() },
+                onPhotographerImgClick = {}
             )
         }
         composable<Routes.ProfileScreen> {
