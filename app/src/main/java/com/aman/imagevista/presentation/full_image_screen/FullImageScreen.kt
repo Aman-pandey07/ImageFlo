@@ -73,8 +73,10 @@ fun FullImageScreen(
         modifier= Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
+
         BoxWithConstraints(
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
         )
         {
             var scale by remember {mutableFloatStateOf(1f) }
@@ -135,15 +137,16 @@ fun FullImageScreen(
         }
         FullImageViewTopBar(
             modifier = Modifier
-                .align(Alignment.TopCenter)
                 .fillMaxWidth()
-                .padding(horizontal = 5.dp, vertical = 40.dp),
+                .align(Alignment.TopStart)
+                .padding(horizontal = 5.dp, vertical = 10.dp),
             image = image,
             isVisible = showBars,
             onBackClick = { onBackClick()},
             onPhotographerImgClick = onPhotographerImgClick,
             onDownloadImgClick = {}
         )
+
 
 
     }
