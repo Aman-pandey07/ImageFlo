@@ -144,7 +144,7 @@ fun FullImageScreen(
             isVisible = showBars,
             onBackClick = { onBackClick()},
             onPhotographerImgClick = onPhotographerImgClick,
-            onDownloadImgClick = {}
+            onDownloadImgClick = {},
         )
 
 
