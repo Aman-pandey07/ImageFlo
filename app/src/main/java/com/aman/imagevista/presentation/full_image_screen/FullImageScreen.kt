@@ -1,8 +1,7 @@
 package com.aman.imagevista.presentation.full_image_screen
 
-import android.os.Build
+
 import androidx.activity.compose.BackHandler
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.combinedClickable
@@ -15,12 +14,6 @@ import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
@@ -144,7 +137,7 @@ fun FullImageScreen(
             isVisible = showBars,
             onBackClick = { onBackClick()},
             onPhotographerImgClick = onPhotographerImgClick,
-            onDownloadImgClick = {},
+            onDownloadImgClick = {}
         )
 
 
