@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -44,9 +45,10 @@ import com.aman.imagevista.presentation.component.FullImageViewTopBar
 import com.aman.imagevista.presentation.component.ImageDownloadOption
 import com.aman.imagevista.presentation.component.ImageVistaLoadingBar
 import com.aman.imagevista.presentation.util.rememberWindowInsetsController
+import com.aman.imagevista.presentation.util.SnackbarEvent
+import kotlinx.coroutines.flow.Flow
 import com.aman.imagevista.presentation.util.toggleStatusBars
 import kotlinx.coroutines.launch
-
 
 
 import kotlin.math.max
@@ -55,6 +57,8 @@ import kotlin.math.max
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun FullImageScreen(
+    snackbarHostState: SnackbarHostState,
+    snackbarEvent: Flow<SnackbarEvent>,
     image:UnsplashImage?,
     onBackClick:()->Unit,
     onPhotographerNameClick:(String)->Unit,
@@ -67,7 +71,17 @@ fun FullImageScreen(
 
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     var isDownloadBottomSheetOpen by remember { mutableStateOf(false) }
-    
+
+    LaunchedEffect(key1 = true) {
+        snackbarEvent.collect { event ->
+            snackbarHostState.showSnackbar(
+                message = event.message,
+                duration = event.duration
+            )
+        }
+    }
+
+
     LaunchedEffect(key1 = Unit) {
         windowInsertsController.toggleStatusBars(show = showBars)
     }
