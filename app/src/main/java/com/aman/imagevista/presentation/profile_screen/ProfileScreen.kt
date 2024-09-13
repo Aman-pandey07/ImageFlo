@@ -22,6 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.viewinterop.AndroidView
+import com.aman.imagevista.presentation.component.ImageVistaLoadingBar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -61,7 +62,7 @@ fun ProfileScreen(
                 }
             )
             if (isLoading) {
-                CircularProgressIndicator()
+                ImageVistaLoadingBar()
             }
         }
     }

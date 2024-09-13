@@ -56,6 +56,9 @@ fun NavGraphSetup(
                 onBackClick = { navController.navigateUp() },
                 onPhotographerNameClick = {profileLink->
                     navController.navigate(Routes.ProfileScreen(profileLink))
+                },
+                onImageDownloadClick = {url,title->
+                    fullImageViewModel.downloadImage(url, title)
                 }
             )
         }
