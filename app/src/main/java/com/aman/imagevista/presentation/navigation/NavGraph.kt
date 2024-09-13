@@ -16,6 +16,7 @@ import com.aman.imagevista.presentation.full_image_screen.FullImageScreen
 import com.aman.imagevista.presentation.full_image_screen.FullImageViewModel
 import com.aman.imagevista.presentation.home_screen.HomeScreen
 import com.aman.imagevista.presentation.home_screen.HomeViewModel
+import com.aman.imagevista.presentation.profile_screen.ProfileScreen
 import com.aman.imagevista.presentation.search_screen.SearchScreen
 import okhttp3.Route
 
@@ -53,11 +54,17 @@ fun NavGraphSetup(
             FullImageScreen(
                 image =fullImageViewModel.image,
                 onBackClick = { navController.navigateUp() },
-                onPhotographerImgClick = {}
+                onPhotographerNameClick = {profileLink->
+                    navController.navigate(Routes.ProfileScreen(profileLink))
+                }
             )
         }
-        composable<Routes.ProfileScreen> {
-
+        composable<Routes.ProfileScreen> { backStackEntry->
+            val profileLink = backStackEntry.toRoute<Routes.ProfileScreen>().profileLink
+            ProfileScreen(
+                profileLink = profileLink,
+                onBackClick = { navController.navigateUp() }
+            )
         }
     }
 }

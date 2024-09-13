@@ -6,10 +6,14 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.clickable
+
 import androidx.compose.foundation.layout.Column
+
 import androidx.compose.foundation.layout.Row
+
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
@@ -82,7 +86,7 @@ fun FullImageViewTopBar(
     image:UnsplashImage?,
     isVisible:Boolean,
     onBackClick:()->Unit,
-    onPhotographerImgClick:(String)->Unit,
+    onPhotographerNameClick:(String)->Unit,
     onDownloadImgClick:()->Unit
 ) {
     AnimatedVisibility(
@@ -91,7 +95,7 @@ fun FullImageViewTopBar(
         exit = fadeOut() + slideOutVertically()
     ) {
         Row(
-            modifier = modifier.fillMaxWidth(),
+            modifier = modifier,
             verticalAlignment = Alignment.CenterVertically
         ){
             IconButton(onClick = { onBackClick() }) {
@@ -107,16 +111,18 @@ fun FullImageViewTopBar(
                 model =image?.photographerProfileImgUrl ,
                 contentDescription = null
             )
-            Spacer(modifier = modifier.width(10.dp))
+            Spacer(modifier = Modifier.width(10.dp))
             Column(
                 modifier = Modifier.clickable {
-                    image?.let { onPhotographerImgClick(it.photographerProfileImgUrl) }
+                    image?.let { onPhotographerNameClick(it.photographerProfileLink) }
                 }
             ){
-                Text(text = image?.photographerName?:"",
+                Text(
+                    text = image?.photographerName?:"",
                     style = MaterialTheme.typography.titleMedium
                 )
-                Text(text = image?.photographerUsername?:"",
+                Text(
+                    text = image?.photographerUsername?:"",
                     style = MaterialTheme.typography.bodySmall
                 )
             }
@@ -132,3 +138,5 @@ fun FullImageViewTopBar(
     }
 
 }
+
+

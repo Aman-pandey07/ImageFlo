@@ -1,4 +1,4 @@
-package com.aman.imagevista.data.di
+package com.aman.imagevista.di
 
 import com.aman.imagevista.data.remote.UnsplashApiService
 import com.aman.imagevista.data.repository.ImageRepositoryImpl

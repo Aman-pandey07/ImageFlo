@@ -30,6 +30,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+
 import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
 import com.aman.imagevista.R
@@ -49,7 +50,7 @@ import kotlin.math.max
 fun FullImageScreen(
     image:UnsplashImage?,
     onBackClick:()->Unit,
-    onPhotographerImgClick:(String)->Unit,
+    onPhotographerNameClick:(String)->Unit,
 ) {
     val scope = rememberCoroutineScope()
     var showBars by rememberSaveable { mutableStateOf(false) }
@@ -64,7 +65,6 @@ fun FullImageScreen(
     }
     Box(
         modifier= Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
     ) {
 
         BoxWithConstraints(
@@ -100,6 +100,7 @@ fun FullImageScreen(
                 painter = if (isError.not()) imageLoader else painterResource(id = R.drawable.ic_error),
                 contentDescription = null,
                 modifier = Modifier
+                    .fillMaxSize()
                     .transformable(transformState)
                     .combinedClickable(
                         onDoubleClick = {
@@ -127,20 +128,23 @@ fun FullImageScreen(
                         translationY = offset.y
                     }
             )
+
         }
         FullImageViewTopBar(
             modifier = Modifier
+                .align(Alignment.TopCenter)
                 .fillMaxWidth()
-                .align(Alignment.TopStart)
-                .padding(horizontal = 5.dp, vertical = 10.dp),
+                .padding(horizontal = 5.dp, vertical = 40.dp),
             image = image,
             isVisible = showBars,
             onBackClick = { onBackClick()},
-            onPhotographerImgClick = onPhotographerImgClick,
+            onPhotographerNameClick = onPhotographerNameClick,
             onDownloadImgClick = {},
         )
 
 
 
+
     }
+
 }
