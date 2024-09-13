@@ -1,11 +1,14 @@
 package com.aman.imagevista.di
 
 import android.content.Context
+import androidx.room.Room
+import com.aman.imagevista.data.local.ImageVistaDatabase
 import com.aman.imagevista.data.remote.UnsplashApiService
 import com.aman.imagevista.data.repository.AndroidImageDownloader
 import com.aman.imagevista.data.repository.ImageRepositoryImpl
 import com.aman.imagevista.data.repository.NetworkConnectivityObserverImpl
 import com.aman.imagevista.data.util.Constants
+import com.aman.imagevista.data.util.Constants.IMAGE_VISTA_DATABASE
 import com.aman.imagevista.domain.repository.Downloader
 import com.aman.imagevista.domain.repository.ImageRepository
 import com.aman.imagevista.domain.repository.NetworkConnectivityObserver
@@ -47,10 +50,25 @@ object AppModule {
 
     @Provides
     @Singleton
+    fun provideImageVistaDatabase(
+        @ApplicationContext context: Context
+    ): ImageVistaDatabase {
+        return Room
+            .databaseBuilder(
+                context,
+                ImageVistaDatabase::class.java,
+                IMAGE_VISTA_DATABASE
+            )
+            .build()
+    }
+
+    @Provides
+    @Singleton
     fun provideImageRepository(
-        apiService: UnsplashApiService
+        apiService: UnsplashApiService,
+        database: ImageVistaDatabase
     ): ImageRepository {
-        return ImageRepositoryImpl(apiService)
+        return ImageRepositoryImpl(apiService,database)
 
     }
 

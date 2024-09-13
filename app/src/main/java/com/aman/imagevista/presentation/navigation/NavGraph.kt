@@ -4,19 +4,23 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.aman.imagevista.presentation.favorites_screen.FavoritesScreen
+import com.aman.imagevista.presentation.favorites_screen.FavoritesViewModel
 import com.aman.imagevista.presentation.full_image_screen.FullImageScreen
 import com.aman.imagevista.presentation.full_image_screen.FullImageViewModel
 import com.aman.imagevista.presentation.home_screen.HomeScreen
 import com.aman.imagevista.presentation.home_screen.HomeViewModel
 import com.aman.imagevista.presentation.profile_screen.ProfileScreen
 import com.aman.imagevista.presentation.search_screen.SearchScreen
-
+import com.aman.imagevista.presentation.search_screen.SearchViewModel
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -24,7 +28,9 @@ import com.aman.imagevista.presentation.search_screen.SearchScreen
 fun NavGraphSetup(
     navController: NavHostController,
     scrollBehaviour:TopAppBarScrollBehavior,
-    snackbarHostState: SnackbarHostState
+    snackbarHostState: SnackbarHostState,
+    searchQuery: String,
+    onSearchQueryChange: (String) -> Unit,
 ) {
     NavHost(
         navController =navController,
@@ -45,10 +51,41 @@ fun NavGraphSetup(
             )
         }
         composable<Routes.SearchScreen> {
-            SearchScreen(onBackClick = { navController.navigateUp() })
+            val searchViewModel: SearchViewModel = hiltViewModel()
+            val searchedImages = searchViewModel.searchImages.collectAsLazyPagingItems()
+            val favoriteImageIds by searchViewModel.favoriteImageIds.collectAsStateWithLifecycle()
+            SearchScreen(
+                snackbarHostState = snackbarHostState,
+                snackbarEvent = searchViewModel.snackbarEvent,
+                searchedImages = searchedImages,
+                favoriteImageIds = favoriteImageIds,
+                searchQuery = searchQuery,
+                onSearchQueryChange = onSearchQueryChange,
+                onBackClick = { navController.navigateUp() },
+                onImageClick = { imageId ->
+                    navController.navigate(Routes.FullImageScreen(imageId))
+                },
+                onSearch = { searchViewModel.searchImages(it) },
+                onToggleFavoriteStatus = { searchViewModel.toggleFavoriteStatus(it) }
+            )
         }
         composable<Routes.FavoritesScreen> {
-            FavoritesScreen(onBackClick = { navController.navigateUp() })
+            val favoritesViewModel: FavoritesViewModel = hiltViewModel()
+            val favoriteImages = favoritesViewModel.favoriteImages.collectAsLazyPagingItems()
+            val favoriteImageIds by favoritesViewModel.favoriteImageIds.collectAsStateWithLifecycle()
+            FavoritesScreen(
+                snackbarHostState = snackbarHostState,
+                favoriteImages = favoriteImages,
+                snackbarEvent = favoritesViewModel.snackbarEvent,
+                scrollBehavior = scrollBehaviour,
+                onSearchClick = { navController.navigate(Routes.SearchScreen) },
+                favoriteImageIds = favoriteImageIds,
+                onBackClick = { navController.navigateUp() },
+                onImageClick = { imageId ->
+                    navController.navigate(Routes.FullImageScreen(imageId))
+                },
+                onToggleFavoriteStatus = { favoritesViewModel.toggleFavoriteStatus(it) }
+            )
         }
         composable<Routes.FullImageScreen> {
             val fullImageViewModel: FullImageViewModel = hiltViewModel()

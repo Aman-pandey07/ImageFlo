@@ -20,6 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.paging.compose.LazyPagingItems
 import com.aman.imagevista.R
 import com.aman.imagevista.domain.model.UnsplashImage
 import com.aman.imagevista.presentation.component.ImageVistaTopAppBar
@@ -34,14 +35,16 @@ fun HomeScreen(
     snackbarHostState: SnackbarHostState,
     snackbarEvent: Flow<SnackbarEvent>,
     scrollBehavior: TopAppBarScrollBehavior,
-    images:List<UnsplashImage>,
-    onImageClick:(String)->Unit,
-    onSearchClick:()->Unit,
-    onFABClick:()->Unit
+    images: LazyPagingItems<UnsplashImage>,
+    favoriteImageIds: List<String>,
+    onImageClick: (String) -> Unit,
+    onSearchClick: () -> Unit,
+    onFABClick: () -> Unit,
+    onToggleFavoriteStatus: (UnsplashImage) -> Unit
 ) {
 
-    var showImagePreview by remember{ mutableStateOf(false) }
-    var activeImage by remember{ mutableStateOf<UnsplashImage?>(null) }
+    var showImagePreview by remember { mutableStateOf(false) }
+    var activeImage by remember { mutableStateOf<UnsplashImage?>(null) }
 
     LaunchedEffect(key1 = true) {
         snackbarEvent.collect { event ->
@@ -52,7 +55,7 @@ fun HomeScreen(
         }
     }
 
-    Box(modifier = Modifier.fillMaxSize()){
+    Box(modifier = Modifier.fillMaxSize()) {
         Column(
             modifier = Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally
@@ -62,31 +65,33 @@ fun HomeScreen(
                 onSearchClick = onSearchClick
             )
             ImagesVerticalGrid(
-                images =images,
+                images = images,
                 onImageClick = onImageClick,
+                favoriteImageIds = favoriteImageIds,
                 onImageDragStart = { image ->
-                    activeImage=image
-                    showImagePreview=true
+                    activeImage = image
+                    showImagePreview = true
                 },
-                onImageDragEnd = {showImagePreview=false }
+                onImageDragEnd = { showImagePreview = false },
+                onToggleFavoriteStatus = onToggleFavoriteStatus
             )
         }
         FloatingActionButton(
             modifier = Modifier
                 .align(Alignment.BottomEnd)
                 .padding(24.dp),
-            onClick = { onFABClick()}
+            onClick = { onFABClick() }
         ) {
             Icon(
                 painter = painterResource(R.drawable.ic_save),
-                contentDescription ="Favorites",
+                contentDescription = "Favorites",
                 tint = MaterialTheme.colorScheme.onBackground
             )
         }
         ZoomedImageCard(
             modifier = Modifier.padding(20.dp),
-            isVisible =showImagePreview ,
-            image =activeImage
+            isVisible = showImagePreview,
+            image = activeImage
         )
     }
 }

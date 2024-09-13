@@ -11,36 +11,43 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
+import androidx.paging.compose.LazyPagingItems
 import com.aman.imagevista.domain.model.UnsplashImage
 
 
 @Composable
 fun ImagesVerticalGrid(
     modifier: Modifier = Modifier,
-    images: List<UnsplashImage?>,
+    images: LazyPagingItems<UnsplashImage>,
+    favoriteImageIds: List<String>,
     onImageClick: (String) -> Unit,
     onImageDragStart: (UnsplashImage?) -> Unit,
-    onImageDragEnd: () -> Unit
+    onImageDragEnd: () -> Unit,
+    onToggleFavoriteStatus: (UnsplashImage) -> Unit
 ) {
     LazyVerticalStaggeredGrid(
-        modifier=modifier,
-        columns = StaggeredGridCells.Adaptive (120.dp),
+        modifier = modifier,
+        columns = StaggeredGridCells.Adaptive(120.dp),
         contentPadding = PaddingValues(10.dp),
         verticalItemSpacing = 10.dp,
         horizontalArrangement = Arrangement.spacedBy(10.dp)
     ) {
-        items(images){image->
-            ImageCard(image = image,
+        items(count = images.itemCount) { index ->
+            val image = images[index]
+            ImageCard(
+                image = image,
                 modifier = Modifier
-                    .clickable {image?.id?.let{onImageClick(it)}}
+                    .clickable { image?.id?.let { onImageClick(it) } }
                     .pointerInput(Unit) {
                         detectDragGesturesAfterLongPress(
-                            onDragStart = {onImageDragStart(image)},
-                            onDragCancel = {onImageDragEnd()},
-                            onDragEnd = {onImageDragEnd()},
-                            onDrag = {_, _ ->}
+                            onDragStart = { onImageDragStart(image) },
+                            onDragCancel = { onImageDragEnd() },
+                            onDragEnd = { onImageDragEnd() },
+                            onDrag = { _, _ -> }
                         )
-                    }
+                    },
+                onToggleFavoriteStatus = { image?.let { onToggleFavoriteStatus(it) } },
+                isFavorite = favoriteImageIds.contains(image?.id)
             )
         }
     }

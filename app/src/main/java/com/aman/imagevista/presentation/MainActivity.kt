@@ -49,6 +49,7 @@ class MainActivity : ComponentActivity() {
             val status by connectivityObserver.networkStatus.collectAsState()
             var showMessageBar by rememberSaveable { mutableStateOf(false) }
             var message by rememberSaveable { mutableStateOf("") }
+            var searchQuery by rememberSaveable { mutableStateOf("") }
             var backgroundColor by remember { mutableStateOf(Color.Red) }
             LaunchedEffect(key1 = status) {
                 when(status){
@@ -71,7 +72,7 @@ class MainActivity : ComponentActivity() {
                 val snackbarHostState = remember { SnackbarHostState()}
 
                 Scaffold(
-                    snackbarHost = { SnackbarHost(hostState = snackbarHostState)} ,
+                    snackbarHost = { SnackbarHost(hostState = snackbarHostState)},
                     modifier = Modifier
                         .fillMaxSize()
                         .nestedScroll(scrollBehaviour.nestedScrollConnection),
@@ -86,7 +87,9 @@ class MainActivity : ComponentActivity() {
                     NavGraphSetup(
                         navController = navController,
                         scrollBehaviour = scrollBehaviour,
-                        snackbarHostState = snackbarHostState
+                        snackbarHostState = snackbarHostState,
+                        searchQuery = searchQuery,
+                        onSearchQueryChange = {searchQuery = it}
                     )
                 }
 

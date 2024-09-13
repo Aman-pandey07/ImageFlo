@@ -1,5 +1,4 @@
-package com.aman.imagevista.presentation.home_screen
-
+package com.aman.imagevista.presentation.favorites_screen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -19,14 +18,14 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(
+class FavoritesViewModel @Inject constructor(
     private val repository: ImageRepository
 ) : ViewModel() {
 
     private val _snackbarEvent = Channel<SnackbarEvent>()
     val snackbarEvent = _snackbarEvent.receiveAsFlow()
 
-    val images: StateFlow<PagingData<UnsplashImage>> = repository.getEditorialFeedImages()
+    val favoriteImages: StateFlow<PagingData<UnsplashImage>> = repository.getAllFavoriteImages()
         .catch { exception ->
             _snackbarEvent.send(
                 SnackbarEvent(message = "Something went wrong. ${exception.message}")
@@ -62,4 +61,5 @@ class HomeViewModel @Inject constructor(
             }
         }
     }
+
 }
