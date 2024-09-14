@@ -27,7 +27,7 @@ class ImageRepositoryImpl(
     private val editorialFeedDao = database.editorialFeedDao()
 
     @OptIn(ExperimentalPagingApi::class)
-    override suspend fun getEditorialFeedImages(): Flow<PagingData<UnsplashImage>> {
+    override fun getEditorialFeedImages(): Flow<PagingData<UnsplashImage>> {
         return Pager(
             config = PagingConfig(pageSize = ITEMS_PER_PAGE),
             remoteMediator = EditorialFeedRemoteMediator(unsplashApi, database),
