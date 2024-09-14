@@ -9,11 +9,11 @@ plugins {
 }
 
 android {
-    namespace = "com.aman.imagevista"
+    namespace = "com.aman.imageflo"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.aman.imagevista"
+        applicationId = "com.aman.imageflo"
         minSdk = 21
         targetSdk = 34
         versionCode = 1
